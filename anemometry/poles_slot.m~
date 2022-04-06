@@ -1,0 +1,40 @@
+clear
+line=importdata('5_poles5_slot.txt'); %CFD_025
+vel(:,1)=line(:,4);
+for i=1:4
+    PT(i,1)=0.0;
+end
+
+
+for i=1:4%:-1:1
+        sumtot=0;
+        av=0;
+        t=(i-1)*1200+1;
+        e=0;
+        sum=0;
+        n=1;
+    for j=t:1200*i
+        sumtot=sumtot+vel(j,1);
+        av=sumtot/1200.;
+    end 
+    
+     for j=t:1200*i
+        sum=sum+(vel(j,1)-av).^2.;
+        e=sqrt(1/(n-1)*sum);
+        %e=std(vel,0,240);
+        n=n+1;
+     end
+    PT(i,1)=av;
+    E(i,1)=e;
+end
+
+x=1.65:-0.4:0.4;
+%plot(x,PT,'bx')
+%figure
+herrorbar(PT,x,E,'+k')
+hold on
+
+poles=importdata('pole_5_cfd.dat');
+pole(:,1)=poles(:,2);
+xx=2.26:-0.0491:0.0491;
+plot(pole,xx,'ro')

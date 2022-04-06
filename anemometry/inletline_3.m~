@@ -1,0 +1,9 @@
+clear
+line=importdata('3_inlet_line.dat');
+vel(:,1)=line(:,2);
+
+
+hold on
+x=0.6:0.045:3.36;
+plot(x,vel,'k--')
+
